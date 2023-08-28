@@ -3,11 +3,27 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userrouter from "./routes/user.routes.js";
 import authrouter from "./routes/auth.routes.js";
+import cors   from "cors"
 
 //configiration
 dotenv.config();
 const app=express();
 app.use(express.json());
+
+
+var whitelist = ['http://localhost:3000','http://localhost:5000']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
+// Then pass them to cors:
+app.use(cors(corsOptions));
 
 
 //db connection
